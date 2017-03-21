@@ -51,13 +51,13 @@ object BookMyShowApp extends App{
   val router = system.actorOf(FromConfig.props(Props[BookMyShow]), "poolRouter")
 
   router ! "Booking Seat "
-  Thread.sleep(1000)
+  //Thread.sleep(1000)
   router ! "Booking Seat "
-  Thread.sleep(1000)
+  //Thread.sleep(1000)
   router ! "Canceling Seat "
-  Thread.sleep(1000)
+  //Thread.sleep(1000)
   router ! "Canceling Seat "
-  Thread.sleep(1000)
+  //Thread.sleep(1000)
   router ! "Booking Seat "
 
 }
