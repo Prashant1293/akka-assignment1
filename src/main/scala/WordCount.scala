@@ -1,19 +1,14 @@
-import java.io.File
-
-import akka.actor.Status.Success
 import akka.actor.{Actor, ActorSystem, Props}
 import akka.util.Timeout
 import akka.pattern.ask
-
 import scala.concurrent.duration._
 import scala.concurrent.Future
 import scala.io.Source
-import akka.pattern.pipe
 
 
-class ParentTask extends Actor {
+class MainActor extends Actor {
 
-  val childActor = context.actorOf(Props[ChildTask])
+  val childActor = context.actorOf(Props[Count])
   import scala.concurrent.ExecutionContext.Implicits.global
   var wordCount=0
 
@@ -38,13 +33,13 @@ class ParentTask extends Actor {
   }
 }
 
-class ChildTask extends Actor {
+class Count extends Actor {
 
   override def receive = {
 
     case line:String => {
 
-      val word = line.split(" ").length
+      val word = line.split("\\s+").length
       sender() ! word
 
     }
@@ -55,7 +50,7 @@ object WordCount extends App {
 
   val file="/home/prashant/IdeaProjects/akka1/src/main/scala/File.txt"
   val system = ActorSystem("ForwardPattern")
-  val props = Props[ParentTask]
+  val props = Props[MainActor]
   val ref = system.actorOf(props)
 
   ref ! file
